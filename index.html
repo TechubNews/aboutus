@@ -207,37 +207,150 @@
             border-bottom: 2px solid rgba(100, 255, 218, 0.2);
         }
         
-        .header-images {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
+        /* Header Carousel Styles */
+        .header-carousel {
+            position: relative;
             margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .header-image {
-            max-width: 420px;
-            width: 100%;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+            background: rgba(26, 26, 46, 0.6);
         }
         
-        .header-image img {
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+            position: relative;
+        }
+        
+        .carousel-slide img {
             width: 100%;
             height: auto;
             display: block;
+            max-height: 500px;
+            object-fit: cover;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(100, 255, 218, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-nav.prev {
+            left: 1rem;
+        }
+        
+        .carousel-nav.next {
+            right: 1rem;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.75rem;
+            z-index: 10;
+        }
+        
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-indicator.active {
+            background: #64ffda;
+            border-color: #64ffda;
+            transform: scale(1.3);
+        }
+        
+        /* Desktop: Show multiple images side by side */
+        @media (min-width: 769px) {
+            .carousel-slide {
+                min-width: calc(50% - 0.5rem);
+                margin-right: 1rem;
+            }
+            
+            .carousel-slide:last-child {
+                margin-right: 0;
+            }
+        }
+        
+        /* Mobile: Single image with swipe */
+        @media (max-width: 768px) {
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .carousel-nav.prev {
+                left: 0.5rem;
+            }
+            
+            .carousel-nav.next {
+                right: 0.5rem;
+            }
+            
+            .carousel-slide img {
+                max-height: 300px;
+            }
+            
+            .carousel-indicators {
+                bottom: 1rem;
+            }
         }
         
         .navigation-menu {
             position: sticky;
             top: 0;
-            background: rgba(26, 26, 46, 0.95);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            padding: 0.75rem 0;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
             margin: -2.5rem -3rem 2rem -3rem;
-            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+            border-bottom: 2px solid rgba(100, 255, 218, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             z-index: 100;
         }
         
@@ -246,8 +359,9 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 0.5rem;
             padding: 0 2rem;
+            margin: 0;
         }
         
         .navigation-menu li {
@@ -255,18 +369,120 @@
         }
         
         .navigation-menu a {
-            color: #f0f0f0;
+            color: #e0e0e0;
             text-decoration: none;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
+            position: relative;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            letter-spacing: 0.02em;
+        }
+        
+        .navigation-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.15) 0%, rgba(125, 211, 252, 0.15) 100%);
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .navigation-menu a:hover {
+            color: #64ffda;
+            background: rgba(100, 255, 218, 0.12);
+            border-color: rgba(100, 255, 218, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(100, 255, 218, 0.2);
+        }
+        
+        .navigation-menu a:hover::before {
+            opacity: 1;
+        }
+        
+        .navigation-menu a:active {
+            transform: translateY(0);
+        }
+        
+        /* Mobile navigation - Collapsible hamburger menu */
+        .nav-toggle {
+            display: none;
             background: rgba(100, 255, 218, 0.1);
-            color: #60d9ff;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            color: #64ffda;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+        
+        .nav-toggle:hover {
+            background: rgba(100, 255, 218, 0.2);
+            border-color: rgba(100, 255, 218, 0.5);
+        }
+        
+        .nav-toggle.active {
+            background: rgba(100, 255, 218, 0.25);
+        }
+        
+        @media (max-width: 768px) {
+            .navigation-menu {
+                padding: 0.75rem 0;
+            }
+            
+            .nav-toggle {
+                display: block;
+                margin-bottom: 0.75rem;
+            }
+            
+            .navigation-menu ul {
+                display: none;
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.75rem 1rem;
+                background: rgba(26, 26, 46, 0.95);
+                border-radius: 12px;
+                margin: 0.5rem 1rem 0;
+                border: 1px solid rgba(100, 255, 218, 0.2);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+            }
+            
+            .navigation-menu ul.active {
+                display: flex;
+                max-height: 600px;
+                padding: 0.75rem 1rem;
+                margin: 0.5rem 1rem 0;
+            }
+            
+            .navigation-menu li {
+                width: 100%;
+            }
+            
+            .navigation-menu a {
+                display: block;
+                width: 100%;
+                font-size: 0.9rem;
+                padding: 0.85rem 1.25rem;
+                text-align: center;
+                background: rgba(255, 255, 255, 0.05);
+            }
+            
+            .navigation-menu a:hover {
+                background: rgba(100, 255, 218, 0.15);
+                transform: translateX(4px);
+            }
         }
         
         .back-to-top {
@@ -859,17 +1075,34 @@
     <div class="container">
         <div class="header">
             <h1>Techub News</h1>
-            <div class="header-images">
-                <div class="header-image">
-                    <img src="public/header-1.jpg" alt="Header Image 1" />
-        </div>
-                <div class="header-image">
-                    <img src="public/header-2.jpg" alt="Header Image 2" />
+            <div class="header-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide">
+                            <img src="public/header-1.jpg" alt="Header Image 1" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public/header-2.jpg" alt="Header Image 2" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public/header-3.jpg" alt="Header Image 3" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public/header-4.jpg" alt="Header Image 4" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="public/header-5.jpg" alt="Header Image 5" />
+                        </div>
+                    </div>
+                    <button class="carousel-nav prev" id="carouselPrev" aria-label="Previous">‹</button>
+                    <button class="carousel-nav next" id="carouselNext" aria-label="Next">›</button>
+                    <div class="carousel-indicators" id="carouselIndicators"></div>
                 </div>
             </div>
         </div>
         <nav class="navigation-menu">
-            <ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+            <ul id="navMenu">
                 <li><a href="#about-us">关于我们</a></li>
                 <li><a href="#contact">联系方式</a></li>
                 <li><a href="#platform">平台背景</a></li>
@@ -1358,7 +1591,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年12月26日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">量子威胁15年内或现，比特币不改变区块大小的情况下迁移后量子地址需20年</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/3952c01f-5ec4-4882-8c04-c4f82df7083b" class="interview-title-link" target="_blank" rel="noopener">量子威胁15年内或现，比特币不改变区块大小的情况下迁移后量子地址需20年</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>量子密码学全球先行者西交利物浦大学数学物理学院院长丁津泰教授</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_17.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1373,7 +1606,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年12月12日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">从交易所到加密私行的战略转型</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/eddc71c2-ae33-496f-9ddc-4d87eaf5f2a6" class="interview-title-link" target="_blank" rel="noopener">从交易所到加密私行的战略转型</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>新火科技COO Tim</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_16.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1388,7 +1621,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年9月16日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">解析中国台湾地区虚拟资产协会的 「生态共建」 之道</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/2ec8a6f8-e11d-414d-b08f-b91f0cf08d46" class="interview-title-link" target="_blank" rel="noopener">解析中国台湾地区虚拟资产协会的 「生态共建」 之道</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>国台湾地区比特币及虚拟资产发展协会副秘书长、恒业法律事务所律师林上伦</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_15.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1403,7 +1636,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年9月16日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">中国台湾地区虚拟资产监管 「破局」 进行时，从 ETF 松绑到稳定币探索的全图景</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/511f4b74-1360-41d6-bc6a-881de81d4aca" class="interview-title-link" target="_blank" rel="noopener">中国台湾地区虚拟资产监管 「破局」 进行时，从 ETF 松绑到稳定币探索的全图景</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>中国台湾地区比特币及虚拟资产发展协会创会理事长、恒业法律事务所金融科技部主任林紘宇律师</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_14.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1418,7 +1651,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年9月5日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">从传统VC到Web3，探索RWA与DAT的未来</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/d7b65af6-ed31-4747-bd93-1dcd689aa859" class="interview-title-link" target="_blank" rel="noopener">从传统VC到Web3，探索RWA与DAT的未来</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>胜利证券生态合伙人Paolo</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_13.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1433,7 +1666,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年9月5日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">打造数字资产生态：张华晨谈国富量子的Web3战略</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/ef32416b-a3cb-43af-840c-6491fef6182c" class="interview-title-link" target="_blank" rel="noopener">打造数字资产生态：张华晨谈国富量子的Web3战略</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>国富量子创新有限公司联席CEO 张华晨</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_12.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1448,7 +1681,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年8月12日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 合规赛道，给监管多一点 “爱”</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/8b8a32d5-bf37-438c-9e63-49a75e102023" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 合规赛道，给监管多一点 “爱”</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>EX.IO 联合创始人吴晨</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_11.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1463,7 +1696,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年8月1日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">香港稳定币条例落地后 OTC 门店何去何从？</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/1b2ed0e6-dfb1-4196-a7e9-021dc43f14aa" class="interview-title-link" target="_blank" rel="noopener">香港稳定币条例落地后 OTC 门店何去何从？</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>One Satoshi 创始人兼 CEO Roger Li</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_10.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1478,7 +1711,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年6月25日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">数字资产监管新政与RWA未来潜力</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/253ce24d-9382-40d5-8f2e-4078264a11db" class="interview-title-link" target="_blank" rel="noopener">数字资产监管新政与RWA未来潜力</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>港立法会议员、全国政协委员吴杰庄</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_9.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1493,7 +1726,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年6月24日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">美元稳定币将重塑金融秩序，比特币进入可编程元年</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/8505e729-1846-4602-8e14-73d040774c24" class="interview-title-link" target="_blank" rel="noopener">美元稳定币将重塑金融秩序，比特币进入可编程元年</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>Vernal Capital 创始人杜均</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_8.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1508,7 +1741,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年6月13日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">从老牌券商到Crypto先锋</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/ed5c7963-f6b6-4ac4-bc8a-c4aae34a867e" class="interview-title-link" target="_blank" rel="noopener">从老牌券商到Crypto先锋</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>胜利证券的Kennix</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_7.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1523,7 +1756,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年3月12日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">你怎么看 Crypto？</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/23098019-264c-4373-86af-274f59e9b266" class="interview-title-link" target="_blank" rel="noopener">你怎么看 Crypto？</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>金融时报中文网的总编王丰老师</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_6.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1550,7 +1783,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2025年1月21日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">解析 Taiko 技术视角下 crypto 的未来走向</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/8f075a61-c263-4eca-973f-06de0dd4890b" class="interview-title-link" target="_blank" rel="noopener">解析 Taiko 技术视角下 crypto 的未来走向</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>Taiko 的 CTO Brecht Devos</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_5.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1569,7 +1802,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2024年11月21日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/916e61b0-2796-4879-952f-63373d22c382" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>HashKey Tokenisation 总经理 Anna Liu</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_4.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1588,7 +1821,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2024年11月27日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/253ce24d-9382-40d5-8f2e-4078264a11db" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>香港立法会议员吴杰庄</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_3.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1607,7 +1840,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2024年11月25日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/a87caf3d-239c-441f-bfbf-223d7c62f09a" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>邱达根议员</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_2.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1626,7 +1859,7 @@
             <table class="interview-table">
                 <tbody>
                     <tr><td class="label-cell">时间：</td><td>2024年11月8日</td></tr>
-                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
+                    <tr><td class="label-cell">专访主题：</td><td><a href="https://techub.news/articleDetail/7e3757ed-b04a-4940-8945-3615f1f2e15e" class="interview-title-link" target="_blank" rel="noopener">香港 Web3 宣言两周年</a></td></tr>
                     <tr><td class="label-cell">嘉宾名称：</td><td>OSL Exchange 销售交易主管曾宝基</td></tr>
                     <tr><td class="label-cell">专访海报：</td><td class="image-cell"><img src="public/interview_1.jpeg" alt="专访海报" class="poster-image" /></td></tr>
                 </tbody>
@@ -1660,6 +1893,38 @@
             });
         });
         
+        // Mobile navigation toggle
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                navToggle.classList.toggle('active');
+            });
+            
+            // Close menu when clicking on a link (mobile only)
+            if (window.innerWidth <= 768) {
+                document.querySelectorAll('.navigation-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        navToggle.classList.remove('active');
+                    });
+                });
+            }
+            
+            // Close menu when clicking outside (mobile only)
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768 && 
+                    navMenu.classList.contains('active') && 
+                    !navMenu.contains(e.target) && 
+                    !navToggle.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                }
+            });
+        }
+        
         document.querySelectorAll('.navigation-menu a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1674,6 +1939,221 @@
                 }
             });
         });
+        
+        // Carousel functionality
+        (function() {
+            const carouselTrack = document.getElementById('carouselTrack');
+            const carouselPrev = document.getElementById('carouselPrev');
+            const carouselNext = document.getElementById('carouselNext');
+            const carouselIndicators = document.getElementById('carouselIndicators');
+            const slides = carouselTrack.querySelectorAll('.carousel-slide');
+            
+            if (!carouselTrack || slides.length === 0) return;
+            
+            let currentIndex = 0;
+            let isTransitioning = false;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let autoPlayInterval = null;
+            
+            function getIsMobile() {
+                return window.innerWidth <= 768;
+            }
+            
+            function getSlidesPerView() {
+                return getIsMobile() ? 1 : 2;
+            }
+            
+            let isMobile = getIsMobile();
+            let slidesPerView = getSlidesPerView();
+            const totalSlides = slides.length;
+            
+            // Create indicators
+            slides.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'carousel-indicator';
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSlide(index));
+                carouselIndicators.appendChild(indicator);
+            });
+            
+            function updateCarousel() {
+                isMobile = getIsMobile();
+                slidesPerView = getSlidesPerView();
+                
+                if (isMobile) {
+                    // Mobile: single slide view - ensure we don't go beyond total slides
+                    if (currentIndex >= totalSlides) {
+                        currentIndex = 0;
+                    }
+                    if (currentIndex < 0) {
+                        currentIndex = totalSlides - 1;
+                    }
+                    const translateX = -currentIndex * 100;
+                    carouselTrack.style.transform = `translateX(${translateX}%)`;
+                } else {
+                    // Desktop: show 2 slides
+                    const maxIndex = Math.max(0, totalSlides - slidesPerView);
+                    if (currentIndex > maxIndex) {
+                        currentIndex = 0;
+                    }
+                    if (currentIndex < 0) {
+                        currentIndex = maxIndex;
+                    }
+                    const translateX = -currentIndex * (100 / slidesPerView);
+                    carouselTrack.style.transform = `translateX(${translateX}%)`;
+                }
+                
+                // Update indicators
+                document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
+                    if (index === currentIndex) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            function goToSlide(index) {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                isMobile = getIsMobile();
+                slidesPerView = getSlidesPerView();
+                const maxIndex = isMobile ? totalSlides - 1 : Math.max(0, totalSlides - slidesPerView);
+                currentIndex = Math.max(0, Math.min(index, maxIndex));
+                updateCarousel();
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 500);
+            }
+            
+            function nextSlide() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                isMobile = getIsMobile();
+                slidesPerView = getSlidesPerView();
+                
+                if (isMobile) {
+                    currentIndex = (currentIndex + 1) % totalSlides;
+                } else {
+                    // Desktop: move by 1 slide at a time, but ensure we don't go beyond
+                    const maxIndex = Math.max(0, totalSlides - slidesPerView);
+                    currentIndex = (currentIndex + 1) % (maxIndex + 1);
+                }
+                updateCarousel();
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 500);
+            }
+            
+            function prevSlide() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                isMobile = getIsMobile();
+                slidesPerView = getSlidesPerView();
+                
+                if (isMobile) {
+                    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                } else {
+                    // Desktop: move by 1 slide at a time, but ensure we don't go beyond
+                    const maxIndex = Math.max(0, totalSlides - slidesPerView);
+                    currentIndex = (currentIndex - 1 + maxIndex + 1) % (maxIndex + 1);
+                }
+                updateCarousel();
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 500);
+            }
+            
+            // Button events
+            if (carouselPrev) {
+                carouselPrev.addEventListener('click', prevSlide);
+            }
+            if (carouselNext) {
+                carouselNext.addEventListener('click', nextSlide);
+            }
+            
+            // Touch events for mobile swipe
+            carouselTrack.addEventListener('touchstart', (e) => {
+                if (getIsMobile()) {
+                    touchStartX = e.touches[0].clientX;
+                }
+            }, { passive: true });
+            
+            carouselTrack.addEventListener('touchend', (e) => {
+                if (getIsMobile()) {
+                    touchEndX = e.changedTouches[0].clientX;
+                    const swipeThreshold = 50;
+                    const diff = touchStartX - touchEndX;
+                    
+                    if (Math.abs(diff) > swipeThreshold) {
+                        if (diff > 0) {
+                            nextSlide();
+                        } else {
+                            prevSlide();
+                        }
+                    }
+                }
+            }, { passive: true });
+            
+            // Auto-play functionality
+            function startAutoPlay() {
+                stopAutoPlay(); // Clear any existing interval
+                autoPlayInterval = setInterval(() => {
+                    nextSlide();
+                }, 4000); // 4 seconds per slide
+            }
+            
+            function stopAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            }
+            
+            // Start auto-play
+            startAutoPlay();
+            
+            // Pause on hover/interaction
+            const carouselContainer = carouselTrack.closest('.header-carousel');
+            if (carouselContainer) {
+                carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+                carouselContainer.addEventListener('mouseleave', startAutoPlay);
+            }
+            
+            // Pause on touch (mobile)
+            let touchPauseTimer;
+            carouselTrack.addEventListener('touchstart', () => {
+                if (getIsMobile()) {
+                    stopAutoPlay();
+                    clearTimeout(touchPauseTimer);
+                    touchPauseTimer = setTimeout(() => {
+                        startAutoPlay();
+                    }, 5000); // Resume after 5 seconds
+                }
+            });
+            
+            // Handle window resize
+            let resizeTimer;
+            let lastIsMobile = getIsMobile();
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    const nowMobile = getIsMobile();
+                    if (lastIsMobile !== nowMobile) {
+                        currentIndex = 0;
+                        updateCarousel();
+                        lastIsMobile = nowMobile;
+                    } else {
+                        // Even if mobile/desktop status didn't change, update carousel
+                        updateCarousel();
+                    }
+                }, 250);
+            });
+            
+            // Initialize
+            updateCarousel();
+        })();
     </script>
 </body>
 </html>
