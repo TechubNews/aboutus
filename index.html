@@ -554,6 +554,37 @@
             gap: 0.5rem;
         }
         
+        .nav-language-switcher-desktop {
+            margin-left: 0.5rem;
+            display: none;
+        }
+        
+        .nav-language-switcher-desktop button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            color: #e0e0e0;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            margin-left: 0.25rem;
+        }
+        
+        .nav-language-switcher-desktop button:hover {
+            background: rgba(100, 255, 218, 0.15);
+            border-color: rgba(100, 255, 218, 0.4);
+            color: #64ffda;
+        }
+        
+        .nav-language-switcher-desktop button.active {
+            background: rgba(100, 255, 218, 0.25);
+            border-color: #64ffda;
+            color: #64ffda;
+        }
+        
         .language-switcher-mobile button {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(100, 255, 218, 0.2);
@@ -582,6 +613,13 @@
         @media (min-width: 769px) {
             .language-switcher-mobile {
                 display: none;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .nav-language-switcher-desktop {
+                display: inline-flex;
+                align-items: center;
             }
         }
         
@@ -1225,14 +1263,14 @@
                 display: none;
             }
             
-        .products-list {
-            flex-wrap: wrap;
-            justify-content: flex-start;
-        }
-        
-        .product-item {
-            flex: 0 1 calc(50% - 1rem);
-        }
+            .products-list {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+            
+            .product-item {
+                flex: 0 1 calc(50% - 1rem);
+            }
             
             .app-ranking-grid {
                 display: flex;
@@ -1295,6 +1333,40 @@
                 width: auto;
                 height: auto;
             }
+            
+            .activities-section,
+            .interviews-section {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                gap: 1rem;
+                padding-bottom: 0.75rem;
+                scroll-snap-type: x mandatory;
+            }
+            
+            .activities-section::-webkit-scrollbar,
+            .interviews-section::-webkit-scrollbar {
+                height: 4px;
+            }
+            
+            .activities-section::-webkit-scrollbar-thumb,
+            .interviews-section::-webkit-scrollbar-thumb {
+                background: rgba(100, 255, 218, 0.4);
+                border-radius: 2px;
+            }
+            
+            .activities-section::-webkit-scrollbar-track,
+            .interviews-section::-webkit-scrollbar-track {
+                background: rgba(15, 23, 42, 0.6);
+            }
+            
+            .activity-item,
+            .interview-item {
+                min-width: 85%;
+                flex: 0 0 85%;
+                scroll-snap-align: start;
+            }
         }
 
     </style>
@@ -1334,8 +1406,8 @@
             <div class="nav-header">
                 <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
                 <div class="language-switcher-mobile">
-                    <button id="langZhMobile" data-lang="zh">中文</button>
-                    <button id="langEnMobile" class="active" data-lang="en">English</button>
+                    <button id="langZhMobile" data-lang="zh">CN</button>
+                    <button id="langEnMobile" class="active" data-lang="en">EN</button>
                 </div>
             </div>
             <ul id="navMenu">
@@ -1345,6 +1417,10 @@
                 <li><a href="#data" data-i18n="nav.data">数据展示</a></li>
                 <li><a href="#activities" data-i18n="nav.activities">过往活动</a></li>
                 <li><a href="#interviews" data-i18n="nav.interviews">人物专访</a></li>
+                <li class="nav-language-switcher-desktop">
+                    <button id="langZhDesktop" data-lang="zh">CN</button>
+                    <button id="langEnDesktop" class="active" data-lang="en">EN</button>
+                </li>
             </ul>
         </nav>
         <div class="content">
@@ -2247,6 +2323,14 @@
                     btn.classList.remove('active');
                 }
             });
+            
+            document.querySelectorAll('.nav-language-switcher-desktop button').forEach(btn => {
+                if (btn.getAttribute('data-lang') === currentLang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
         }
         
         // Initialize language
@@ -2261,11 +2345,19 @@
         
         const langZhMobile = document.getElementById('langZhMobile');
         const langEnMobile = document.getElementById('langEnMobile');
+        const langZhDesktop = document.getElementById('langZhDesktop');
+        const langEnDesktop = document.getElementById('langEnDesktop');
         if (langZhMobile) {
             langZhMobile.addEventListener('click', () => switchLanguage('zh'));
         }
         if (langEnMobile) {
             langEnMobile.addEventListener('click', () => switchLanguage('en'));
+        }
+        if (langZhDesktop) {
+            langZhDesktop.addEventListener('click', () => switchLanguage('zh'));
+        }
+        if (langEnDesktop) {
+            langEnDesktop.addEventListener('click', () => switchLanguage('en'));
         }
         
     </script>
